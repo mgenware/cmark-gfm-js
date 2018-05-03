@@ -6,6 +6,13 @@
   "author": "Mgen <m@mgenware.com>",
   "license": "MIT",
   "scripts": {
-    "build": "sh build.sh"
+    "build": "sh build.sh && rollup"
+  },
+  "devDependencies": {
+    "rollup": "^0.58.2",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-uglify": "^3.0.0"
   }
 }
