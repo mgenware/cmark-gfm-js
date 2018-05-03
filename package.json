@@ -1,0 +1,11 @@
+{
+  "name": "cmark-gfm-js",
+  "version": "1.0.0",
+  "main": "main.js",
+  "repository": "https://github.com/mgenware/cmark-gfm-js.git",
+  "author": "Mgen <m@mgenware.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "sh build.sh"
+  }
+}
