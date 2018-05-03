@@ -16,3 +16,7 @@ var Module = {
     return resString;
   }
 }
+
+if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+  window.CmarkGFM = Module;
+}
