@@ -80,7 +80,6 @@ var Module = {
 
     var resBuffer = _cmark_gfm_markdown_to_html(buffer, len, opt);
     var resString = Module.UTF8ToString(resBuffer);
-    console.log('--- len ', resString.length);
 
     Module._free(buffer);
     Module._free(resBuffer);
