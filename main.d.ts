@@ -12,7 +12,6 @@ export function convert(markdown: string): string;
 
 /*~ You can declare types that are available via importing the module */
 export enum Option {
-  default = 0,
   /**
    * ### Options affecting rendering
    */
@@ -75,4 +74,8 @@ export enum Option {
   /** Use style attributes to align table cells instead of align attributes.
    */
   tablePreferStyleAttributes = (1 << 15),
+  
+  /** tablePreferStyleAttributes.
+   */
+  default = tablePreferStyleAttributes,
 }
