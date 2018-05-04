@@ -2,6 +2,7 @@
   "name": "cmark-gfm-js",
   "version": "1.0.1",
   "main": "dist/libcmark.js",
+  "types": "./main.d.ts",
   "repository": "https://github.com/mgenware/cmark-gfm-js.git",
   "author": "Mgen <m@mgenware.com>",
   "license": "MIT",
