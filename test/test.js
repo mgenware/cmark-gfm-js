@@ -3,6 +3,10 @@ const gfm = require('..');
 const { convert } = gfm;
 const assert = require('assert');
 
+it('passing empty string', () => {
+  assert.equal(convert(''), '');
+});
+
 it('strikethrough', () => {
   assert.equal(convert('# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.'), '<h1>Hi</h1>\n<p>This <del>text</del> is <del>curious 😡🙉🙈</del>.</p>\n');
 });
