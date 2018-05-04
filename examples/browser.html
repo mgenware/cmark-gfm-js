@@ -14,7 +14,7 @@
     if (!CmarkGFM) {
       document.getElementById('text').textContent = 'window.CmarkGFM not defined. Please build the project and refresh this page.';
     } else {
-      var md = '# Hi\nThis ~text~~~~ is ~~~~curious~.';
+      var md = '# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.';
       var html = CmarkGFM.convert(md);
       document.getElementById('text').innerHTML = 'Markdown (GFM): <p><code>' + md + '</code></p>';
       document.getElementById('html').innerHTML = html;
