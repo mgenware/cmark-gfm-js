@@ -10,12 +10,16 @@
 * Come with TypeScript definition file.
 
 ## Installation
+### Node.js
 ```sh
 yarn add cmark-gfm-js
 ```
 
+### Browser
+Download [cmark-gfm.js](https://raw.githubusercontent.com/mgenware/cmark-gfm-js/master/dist/cmark-gfm.js)
+
 ## Usage
-Node.js
+Node.js:
 ```js
 const gfm = require('cmark-gfm-js');
 
