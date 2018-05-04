@@ -17,7 +17,7 @@ yarn add cmark-gfm-js
 ## Usage
 Node.js
 ```js
-const gfm = require('..');
+const gfm = require('cmark-gfm-js');
 
 const markdown = '# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.'
 const html = gfm.convert(markdown);
