@@ -6,6 +6,10 @@
   "author": "Mgen <m@mgenware.com>",
   "license": "MIT",
   "scripts": {
-    "build": "sh build.sh && rollup"
+    "build": "sh build.sh && rollup",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "^5.1.1"
   }
 }
