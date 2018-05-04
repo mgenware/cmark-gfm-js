@@ -1,3 +1,5 @@
 const gfm = require('..');
 
-console.log(gfm.convert('# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.'));
+const markdown = '# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.'
+const html = gfm.convert(markdown);
+console.log(html);
