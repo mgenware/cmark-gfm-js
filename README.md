@@ -46,3 +46,6 @@ Browser:
   }
 </script>
 ```
+
+## Who is using cmark-gfm-js
+[Coldfunction](coldfunction.com) is using cmark-gfm-js to generate HTML from markdown in browser, and uses cmark-gfm in its backend services.
