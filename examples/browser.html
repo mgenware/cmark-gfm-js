@@ -1,0 +1,24 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <p id="text"></p>
+  <hr/>
+  <p id="html"></p>
+  <script src="../dist/libcmark.js"></script>
+  <script>
+    if (!CmarkGFM) {
+      document.getElementById('text').textContent = 'window.CmarkGFM not defined. Please build the project and refresh this page.';
+    } else {
+      var md = '# Hi\nThis ~text~~~~ is ~~~~curious~.';
+      var html = CmarkGFM.convert(md);
+      document.getElementById('text').innerHTML = 'Markdown (GFM): <p><code>' + md + '</code></p>';
+      document.getElementById('html').innerHTML = html;
+    }
+  </script>
+</body>
+</html>
