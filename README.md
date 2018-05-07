@@ -3,6 +3,7 @@
 [![MEAN Module](https://img.shields.io/badge/MEAN%20Module-TypeScript-blue.svg?style=flat-square)](https://github.com/mgenware/MEAN-Module)
 [![Build Status](https://img.shields.io/travis/mgenware/cmark-gfm-js.svg?style=flat-square&label=Build+Status)](https://travis-ci.org/mgenware/cmark-gfm-js)
 [![npm version](https://img.shields.io/npm/v/cmark-gfm-js.svg?style=flat-square)](https://npmjs.com/package/cmark-gfm-js)
+[![Node.js Version](http://img.shields.io/node/v/cmark-gfm-js.svg?style=flat-square)](https://nodejs.org/en/)
 
 * A port of GitHub's [cmark](https://github.com/github/cmark) to JavaScript.
 * Support Node.js and browser.
@@ -81,10 +82,10 @@ In browser:
 #### Some background
 > TL;DR: See [A Good HTML Sanitizer](#a-good-html-sanitizer) for a working example of a HTML Sanitizer.
 
-The current [CommonMark Spec 0.27](https://spec.commonmark.org/0.27/) allows raw HTML tags in markdown but does not state anything on sanitizing raw HTML data. cmark-gfm comes with two possible(but not perfect) builtin solutions.
+The current [CommonMark Spec 0.27](https://spec.commonmark.org/0.27/) allows raw HTML tags in markdown but does not state anything on sanitizing raw HTML data. cmark-gfm comes with two possible (but not perfect) builtin solutions.
 
-* cmark comes with a `safe` option, which will suppress most raw HTML tags (see Options below).
-* cmark-gfm comes with an extension called `tagfilter`, which filters a set of HTML tags, and is written in GFM Spec. (see [spec](https://github.github.com/gfm/#disallowed-raw-html-extension-))
+* cmark comes with a `safe` option, which will suppress most raw HTML tags (see Options below). **Drawback**: many safe tags are killed, not configurable.
+* cmark-gfm comes with an extension called `tagfilter`, which filters a set of HTML tags, and is written in GFM Spec. (see [spec](https://github.github.com/gfm/#disallowed-raw-html-extension-)). **Drawbacks**: cannot filter tags with malicious attributes, not configurable.
 
 Let's see a real example:
 ```js
@@ -118,7 +119,7 @@ console.log(cmarkSafe);
 */
 ```
 
-So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `safe` option seems like a overkill. 
+So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `SAFE` option seems like an overkill. 
 
 #### A Good HTML Sanitizer
 **If you want to sanitize HTML in a good way, I suggest you completely ignore the builtin solutions above from cmark-gfm, instead output raw HTML with `gfm.convertUnsafe` and use a more professional HTML sanitizer instead. For example:**
