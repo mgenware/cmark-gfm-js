@@ -1,16 +1,14 @@
 // Type definitions for cmark-gfm-js
-
-/*~ If this module is a UMD module that exposes a global variable 'myLib' when
- *~ loaded outside a module loader environment, declare that global here.
- *~ Otherwise, delete this declaration.
- */
 export as namespace CmarkGFM;
 
-/*~ Converts a GFM string to HTML.
+/*~ convert converts a GitHub Flavored Markdown (GFM) string to HTML.
  */
 export function convert(markdown: string, options?: number): string;
 
-/*~ You can declare types that are available via importing the module */
+/*~ convertUnsafe calls convert with GFM's tagfilter extension disabled.
+ */
+export function convertUnsafe(markdown: string, options?: number): string;
+
 export enum Option {
   /**
    * ### Options affecting rendering
