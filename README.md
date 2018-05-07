@@ -19,11 +19,22 @@ yarn add cmark-gfm-js
 Download [cmark-gfm.js](https://raw.githubusercontent.com/mgenware/cmark-gfm-js/master/dist/cmark-gfm.js)
 
 ## Usage
-Node.js:
+```typescript
+/*~ convert converts a GitHub Flavored Markdown (GFM) string to HTML.
+ */
+function convert(markdown: string, options?: number): string;
+
+/*~ convertUnsafe calls convert with GFM's tagfilter extension disabled.
+ */
+function convertUnsafe(markdown: string, options?: number): string;
+```
+
+### Examples
+In Node.js:
 ```js
 const gfm = require('cmark-gfm-js');
 
-const markdown = '# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.'
+const markdown = '# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.';
 const html = gfm.convert(markdown);
 console.log(html);
 // Prints: 
@@ -31,7 +42,7 @@ console.log(html);
 // <p>This <del>text</del> is <del>curious 😡🙉🙈</del>.</p>
 ```
 
-Browser:
+In browser:
 ```html
 <p id="html"></p>
 <script src="./dist/cmark-gfm.js"></script>
@@ -46,6 +57,119 @@ Browser:
   }
 </script>
 ```
+
+### HTML sanitization and the `convertUnsafe` function.
+The current [CommonMark Spec 0.27](https://spec.commonmark.org/0.27/) allows raw HTML tags in markdown but does not state anything on sanitizing raw HTML data. cmark-gfm comes with two possible(but not perfect) builtin solutions.
+
+* cmark comes with a `safe` option, which will suppress most raw HTML tags (see Options below).
+* cmark-gfm comes with an extension called `tagfilter`, which filters a set of HTML tags, and is written in GFM Spec. (see [spec](https://github.github.com/gfm/#disallowed-raw-html-extension-))
+
+Let's see a real example:
+```js
+const gfm = require('cmark-gfm-js');
+
+/* Consider the following markdown
+❌ <script>alert(1)</script>
+❌ <img src="x.jpg" onclick="alert(1)"/>
+✅ <img src="cool.jpg"/>
+✅ <figcaption>caption</figcaption>
+*/
+const dangerous = '<script>alert(1)</script>\n<img src="x.jpg" onclick="alert(1)"/>\n<img src="cool.jpg"/>\n<figcaption>caption</figcaption>';
+
+// GFM's tagfilter is enabled by default.
+const tagfiltered = gfm.convert(dangerous);
+console.log(tagfiltered);
+/* Prints
+&lt;script>alert(1)&lt;/script>
+<img src="x.jpg" onclick="alert(1)"/>
+<img src="cool.jpg"/>
+<figcaption>caption</figcaption>
+*/
+
+// Do not use GFM's tagfilter, use cmark's SAFE option.
+// gfm.convertUnsafe will disable GFM's tagfilter extension.
+const cmarkSafe = gfm.convertUnsafe(dangerous, gfm.Option.safe);
+console.log(cmarkSafe);
+/* Prints
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+*/
+```
+
+**So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `safe` option seems like a overkill. If you want to sanitize HTML in a good way, I suggest you completely ignore these two builtin solutions, and output raw HTML with `gfm.convertUnsafe` without `gfm.Option.safe` option and use a more professional HTML instead.
+
+### cmark-gfm Options
+```typescript
+enum Option {
+  /**
+   * ### Options affecting rendering
+   */
+
+  /** Include a `data-sourcepos` attribute on all block elements. */
+  sourcePos = (1 << 1),
+
+  /** Render `softbreak` elements as hard line breaks.
+   */
+  softBreak = (1 << 2),
+
+  /** Suppress raw HTML and unsafe links (`javascript:`, `vbscript:`,
+   * `file:`, and `data:`, except for `image/png`, `image/gif`,
+   * `image/jpeg`, or `image/webp` mime types).  Raw HTML is replaced
+   * by a placeholder HTML comment. Unsafe links are replaced by
+   * empty strings.
+   */
+  safe = (1 << 3),
+
+  /** Render `softbreak` elements as spaces.
+   */
+  noBreaks = (1 << 4),
+
+  /**
+   * ### Options affecting parsing
+   */
+
+  /** Legacy option (no effect).
+   */
+  normalize = (1 << 8),
+
+  /** Validate UTF-8 in the input before parsing, replacing illegal
+   * sequences with the replacement character U+FFFD.
+   */
+  validateUTF8 = (1 << 9),
+
+  /** Convert straight quotes to curly, --- to em dashes, -- to en dashes.
+   */
+  smart = (1 << 10),
+
+  /** Use GitHub-style <pre lang="x"> tags for code blocks instead of <pre><code
+   * class="language-x">.
+   */
+  githubPreLang = (1 << 11),
+
+  /** Be liberal in interpreting inline HTML tags.
+   */
+  liberalHTMLTag = (1 << 12),
+
+  /** Parse footnotes.
+   */
+  footnotes = (1 << 13),
+
+  /** Only parse strikethroughs if surrounded by exactly 2 tildes.
+   * Gives some compatibility with redcarpet.
+   */
+  strikethroughDoubleTilde = (1 << 14),
+
+  /** Use style attributes to align table cells instead of align attributes.
+   */
+  tablePreferStyleAttributes = (1 << 15),
+  
+  /** tablePreferStyleAttributes.
+   */
+  default = tablePreferStyleAttributes,
+}
+```
+
+### 
 
 ## Who is using cmark-gfm-js
 [Coldfunction](coldfunction.com) is using cmark-gfm-js to generate HTML from markdown in browser, and uses cmark-gfm in its backend services.
