@@ -4,7 +4,7 @@
   "main": "./dist/cmark-gfm.js",
   "types": "./main.d.ts",
   "repository": "https://github.com/mgenware/cmark-gfm-js.git",
-  "author": "Mgen <m@mgenware.com>",
+  "author": "Mgen (https://github.com/mgenware)",
   "license": "MIT",
   "scripts": {
     "build": "sh build.sh",
@@ -12,5 +12,16 @@
   },
   "devDependencies": {
     "mocha": "^5.1.1"
-  }
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "markdown",
+    "gfm",
+    "commonmark",
+    "markdown to html",
+    "gfm to html",
+    "commonmark to html"
+  ]
 }
