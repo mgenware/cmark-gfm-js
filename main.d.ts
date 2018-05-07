@@ -8,7 +8,7 @@ export as namespace CmarkGFM;
 
 /*~ Converts a GFM string to HTML.
  */
-export function convert(markdown: string): string;
+export function convert(markdown: string, options?: number): string;
 
 /*~ You can declare types that are available via importing the module */
 export enum Option {
