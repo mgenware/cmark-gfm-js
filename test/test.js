@@ -1,6 +1,6 @@
 
 const gfm = require('..');
-const { convert } = gfm;
+const { convert, convertUnsafe } = gfm;
 const assert = require('assert');
 
 it('passing empty string', () => {
@@ -65,12 +65,22 @@ a.b-c_d@a.b_`), `<p><a href="mailto:a.b-c_d@a.b">a.b-c_d@a.b</a></p>
 
 it('tagfilter (GFM)', () => {
   assert.equal(convert(`<strong> <title> <style> <em>
-
 <blockquote>
   <xmp> is disallowed.  <XMP> is also disallowed.
 </blockquote>`), `<p><strong> &lt;title> &lt;style> <em></p>
 <blockquote>
   &lt;xmp> is disallowed.  &lt;XMP> is also disallowed.
+</blockquote>
+`);
+});
+
+it('no-tagfilter', () => {
+  assert.equal(convertUnsafe(`<strong> <title> <style> <em>
+<blockquote>
+  <xmp> is disallowed.  <XMP> is also disallowed.
+</blockquote>`), `<p><strong> <title> <style> <em></p>
+<blockquote>
+  <xmp> is disallowed.  <XMP> is also disallowed.
 </blockquote>
 `);
 });
