@@ -1,6 +1,6 @@
 {
   "name": "cmark-gfm-js",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "main": "./dist/cmark-gfm.js",
   "types": "./main.d.ts",
   "repository": "https://github.com/mgenware/cmark-gfm-js.git",
