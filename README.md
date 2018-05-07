@@ -20,11 +20,13 @@ Download [cmark-gfm.js](https://raw.githubusercontent.com/mgenware/cmark-gfm-js/
 
 ## Usage
 ```typescript
-/*~ convert converts a GitHub Flavored Markdown (GFM) string to HTML.
+/*
+ * convert converts a GitHub Flavored Markdown (GFM) string to HTML.
  */
 function convert(markdown: string, options?: number): string;
 
-/*~ convertUnsafe calls convert with GFM's tagfilter extension disabled.
+/*
+ * convertUnsafe calls convert with GFM's tagfilter extension disabled. (See "HTML Sanitization" below for details)
  */
 function convertUnsafe(markdown: string, options?: number): string;
 ```
@@ -75,7 +77,7 @@ In browser:
 </script>
 ```
 
-### HTML sanitization and the `convertUnsafe` function.
+### HTML Sanitization
 The current [CommonMark Spec 0.27](https://spec.commonmark.org/0.27/) allows raw HTML tags in markdown but does not state anything on sanitizing raw HTML data. cmark-gfm comes with two possible(but not perfect) builtin solutions.
 
 * cmark comes with a `safe` option, which will suppress most raw HTML tags (see Options below).
@@ -113,7 +115,7 @@ console.log(cmarkSafe);
 */
 ```
 
-**So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `safe` option seems like a overkill. If you want to sanitize HTML in a good way, I suggest you completely ignore these two builtin solutions, and output raw HTML with `gfm.convertUnsafe` without `gfm.Option.safe` option and use a more professional HTML instead.
+**So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `safe` option seems like a overkill. If you want to sanitize HTML in a good way, I suggest you completely ignore these two builtin solutions, and output raw HTML with `gfm.convertUnsafe` without `gfm.Option.safe` option and use a more professional HTML instead.**
 
 ### cmark-gfm Options
 ```typescript
