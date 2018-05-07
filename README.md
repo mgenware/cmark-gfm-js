@@ -35,25 +35,42 @@ In Node.js:
 const gfm = require('cmark-gfm-js');
 
 const markdown = '# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.';
-const html = gfm.convert(markdown);
+let html = gfm.convert(markdown);
 console.log(html);
-// Prints: 
-// <h1>Hi</h1>
-// <p>This <del>text</del> is <del>curious 😡🙉🙈</del>.</p>
+/** Prints: 
+  <h1>Hi</h1>
+  <p>This <del>text</del> is <del>curious 😡🙉🙈</del>.</p>
+*/
+
+// Specify an option
+html = gfm.convert(markdown, gfm.Option.sourcePos);
+console.log(html);
+/** Prints
+  <h1 data-sourcepos="1:1-1:4">Hi</h1>
+  <p data-sourcepos="2:1-2:44">This <del>text</del> is <del>curious 😡🙉🙈</del>.</p>
+*/
 ```
 
 In browser:
 ```html
+<p id="text"></p>
+<hr/>
 <p id="html"></p>
-<script src="./dist/cmark-gfm.js"></script>
+<p id="htmlPreview"></p>
+<script src="../dist/cmark-gfm.js"></script>
 <script>
   if (!CmarkGFM) {
-    console.error('window.CmarkGFM not defined. Please import the cmark-gfm-js script.');
+    document.getElementById('text').textContent = 'window.CmarkGFM not defined. Please build the project and refresh this page.';
   } else {
     var markdown = '# Hi\nThis ~text~~~~ is ~~~~curious 😡🙉🙈~.';
     var html = CmarkGFM.convert(markdown);
     
+    document.getElementById('text').innerHTML = 'Markdown (GFM): <p><code>' + markdown + '</code></p>';
     document.getElementById('html').innerHTML = html;
+
+    // Specify an option
+    var htmlWithSourcePos = CmarkGFM.convert(markdown, CmarkGFM.Option.sourcePos);
+    document.getElementById('htmlPreview').textContent = htmlWithSourcePos;
   }
 </script>
 ```

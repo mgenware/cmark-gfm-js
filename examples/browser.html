@@ -9,6 +9,7 @@
   <p id="text"></p>
   <hr/>
   <p id="html"></p>
+  <p id="htmlPreview"></p>
   <script src="../dist/cmark-gfm.js"></script>
   <script>
     if (!CmarkGFM) {
@@ -19,6 +20,10 @@
       
       document.getElementById('text').innerHTML = 'Markdown (GFM): <p><code>' + markdown + '</code></p>';
       document.getElementById('html').innerHTML = html;
+
+      // Specify an option
+      var htmlWithSourcePos = CmarkGFM.convert(markdown, CmarkGFM.Option.sourcePos);
+      document.getElementById('htmlPreview').textContent = htmlWithSourcePos;
     }
   </script>
 </body>
