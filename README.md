@@ -9,6 +9,8 @@
 * Support Node.js and browser.
 * 100% compatible with GitHub Flavored Markdown (GFM).
 * Come with TypeScript definition file.
+* [HTML Sanitization](#html-sanitization).
+* [Benchmarks](https://github.com/mgenware/node-markdown-parser-performance).
 
 ## Installation
 ### Node.js
@@ -84,7 +86,7 @@ In browser:
 
 The current [CommonMark Spec 0.27](https://spec.commonmark.org/0.27/) allows raw HTML tags in markdown but does not state anything on sanitizing raw HTML data. cmark-gfm comes with two possible (but not perfect) builtin solutions.
 
-* cmark comes with a `safe` option, which will suppress most raw HTML tags (see Options below). **Drawback**: many safe tags are killed, not configurable.
+* cmark comes with a `SAFE` option, which will suppress most raw HTML tags (see Options below). **Drawback**: many safe tags are killed, not configurable.
 * cmark-gfm comes with an extension called `tagfilter`, which filters a set of HTML tags, and is written in GFM Spec. (see [spec](https://github.github.com/gfm/#disallowed-raw-html-extension-)). **Drawbacks**: cannot filter tags with malicious attributes, not configurable.
 
 Let's see a real example:
