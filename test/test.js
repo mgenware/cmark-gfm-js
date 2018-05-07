@@ -63,7 +63,7 @@ a.b-c_d@a.b_`), `<p><a href="mailto:a.b-c_d@a.b">a.b-c_d@a.b</a></p>
 `);
 });
 
-it('safe output', () => {
+it('tagfilter (GFM)', () => {
   assert.equal(convert(`<strong> <title> <style> <em>
 
 <blockquote>
@@ -85,3 +85,4 @@ it('opt.sourcePos', () => {
 </blockquote>
 `);
 });
+
