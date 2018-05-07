@@ -1,0 +1,10 @@
+{
+  "name": "sanitizeHTML",
+  "version": "1.0.0",
+  "main": "main.js",
+  "author": "Mgen",
+  "license": "MIT",
+  "dependencies": {
+    "sanitize-html": "^1.18.2"
+  }
+}

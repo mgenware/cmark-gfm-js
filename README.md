@@ -20,12 +20,12 @@ Download [cmark-gfm.js](https://raw.githubusercontent.com/mgenware/cmark-gfm-js/
 
 ## Usage
 ```typescript
-/*
+/**
  * convert converts a GitHub Flavored Markdown (GFM) string to HTML.
  */
 function convert(markdown: string, options?: number): string;
 
-/*
+/**
  * convertUnsafe calls convert with GFM's tagfilter extension disabled. (See "HTML Sanitization" below for details)
  */
 function convertUnsafe(markdown: string, options?: number): string;
@@ -78,6 +78,9 @@ In browser:
 ```
 
 ### HTML Sanitization
+#### Some background
+> TL;DR: See [A Good HTML Sanitizer](#a-good-html-sanitizer) for a working example of a HTML Sanitizer.
+
 The current [CommonMark Spec 0.27](https://spec.commonmark.org/0.27/) allows raw HTML tags in markdown but does not state anything on sanitizing raw HTML data. cmark-gfm comes with two possible(but not perfect) builtin solutions.
 
 * cmark comes with a `safe` option, which will suppress most raw HTML tags (see Options below).
@@ -87,35 +90,71 @@ Let's see a real example:
 ```js
 const gfm = require('cmark-gfm-js');
 
-/* Consider the following markdown
-❌ <script>alert(1)</script>
-❌ <img src="x.jpg" onclick="alert(1)"/>
-✅ <img src="cool.jpg"/>
-✅ <figcaption>caption</figcaption>
+/** Consider the following markdown
+  ❌ <script>alert(1)</script>
+  ❌ <img src="x.jpg" onclick="alert(1)"/>
+  ✅ <img src="cool.jpg"/>
+  ✅ <figcaption>caption</figcaption>
 */
 const dangerous = '<script>alert(1)</script>\n<img src="x.jpg" onclick="alert(1)"/>\n<img src="cool.jpg"/>\n<figcaption>caption</figcaption>';
 
 // GFM's tagfilter is enabled by default.
 const tagfiltered = gfm.convert(dangerous);
 console.log(tagfiltered);
-/* Prints
-&lt;script>alert(1)&lt;/script>
-<img src="x.jpg" onclick="alert(1)"/>
-<img src="cool.jpg"/>
-<figcaption>caption</figcaption>
+/** Prints
+  &lt;script>alert(1)&lt;/script>
+  <img src="x.jpg" onclick="alert(1)"/>
+  <img src="cool.jpg"/>
+  <figcaption>caption</figcaption>
 */
 
 // Do not use GFM's tagfilter, use cmark's SAFE option.
 // gfm.convertUnsafe will disable GFM's tagfilter extension.
 const cmarkSafe = gfm.convertUnsafe(dangerous, gfm.Option.safe);
 console.log(cmarkSafe);
-/* Prints
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+/** Prints
+  <!-- raw HTML omitted -->
+  <!-- raw HTML omitted -->
 */
 ```
 
-**So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `safe` option seems like a overkill. If you want to sanitize HTML in a good way, I suggest you completely ignore these two builtin solutions, and output raw HTML with `gfm.convertUnsafe` without `gfm.Option.safe` option and use a more professional HTML instead.**
+So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `safe` option seems like a overkill. 
+
+#### A Good HTML Sanitizer
+**If you want to sanitize HTML in a good way, I suggest you completely ignore the builtin solutions above from cmark-gfm, instead output raw HTML with `gfm.convertUnsafe` and use a more professional HTML sanitizer instead. For example:**
+```js
+const gfm = require('cmark-gfm-js');
+const sanitizeHTML = require('sanitize-html');
+
+/** Dangerous markdown
+  ❌ <script>alert(1)</script>
+  ❌ <img src="x.jpg" onclick="alert(1)"/>
+  ✅ <img src="cool.jpg"/>
+  ✅ <figcaption>caption</figcaption>
+*/
+const dangerous = '<script>alert(1)</script>\n<img src="x.jpg" onclick="alert(1)"/>\n<img src="cool.jpg"/>\n<figcaption>caption</figcaption>';
+
+const unsafeHTML = gfm.convertUnsafe(dangerous);
+const safeHTML = sanitizeHTML(unsafeHTML, {
+  allowedTags: sanitizeHTML.defaults.allowedTags.concat([ 'img', 'figcaption' ]),
+});
+
+console.log(`Unsafe:\n${unsafeHTML}\nSafe: ${safeHTML}`);
+/** Prints 
+  Unsafe:
+  <script>alert(1)</script>
+  <img src="x.jpg" onclick="alert(1)"/>
+  <img src="cool.jpg"/>
+  <figcaption>caption</figcaption>
+
+  Safe:
+  <img src="x.jpg" />
+  <img src="cool.jpg" />
+  <figcaption>caption</figcaption>
+*/
+```
+
+See `examples/sanitizeHTML` for full source code.
 
 ### cmark-gfm Options
 ```typescript
@@ -187,8 +226,6 @@ enum Option {
   default = tablePreferStyleAttributes,
 }
 ```
-
-### 
 
 ## Who is using cmark-gfm-js
 [Coldfunction](coldfunction.com) is using cmark-gfm-js to generate HTML from markdown in browser, and uses cmark-gfm in its backend services.
