@@ -74,3 +74,14 @@ it('safe output', () => {
 </blockquote>
 `);
 });
+
+it('opt.sourcePos', () => {
+  assert.equal(convert('# 1\n2\n# 3\n> 4\n5', gfm.Option.sourcePos), `<h1 data-sourcepos="1:1-1:3">1</h1>
+<p data-sourcepos="2:1-2:1">2</p>
+<h1 data-sourcepos="3:1-3:3">3</h1>
+<blockquote data-sourcepos="4:1-5:1">
+<p data-sourcepos="4:3-5:1">4
+5</p>
+</blockquote>
+`);
+});
