@@ -7,7 +7,7 @@
 
 * A port of GitHub's [cmark](https://github.com/github/cmark) to JavaScript.
 * Support Node.js and browser.
-* 100% compatible with GitHub Flavored Markdown (GFM).
+* [GitHub Flavored Markdown (GFM) Compatibility](#gfm-compatibility).
 * Come with TypeScript definition file.
 * [HTML Sanitization](#html-sanitization).
 * [Benchmarks](https://github.com/mgenware/node-markdown-parser-performance).
@@ -34,7 +34,7 @@ function convert(markdown: string, options?: number): string;
 function convertUnsafe(markdown: string, options?: number): string;
 ```
 
-### Examples
+## Examples
 In Node.js:
 ```js
 const gfm = require('cmark-gfm-js');
@@ -80,8 +80,15 @@ In browser:
 </script>
 ```
 
-### HTML Sanitization
-#### Some background
+## GFM Compatibility
+[Task list items](https://github.github.com/gfm/#task-list-items-extension-) are not supported ([issue](https://github.com/github/cmark/issues/23)). Use emojis instead. e.g.
+```
+✅ Done.
+❌ To be done.
+```
+
+## HTML Sanitization
+### Some background
 > TL;DR: See [A Good HTML Sanitizer](#a-good-html-sanitizer) for a working example of a HTML Sanitizer.
 
 The current [CommonMark Spec 0.27](https://spec.commonmark.org/0.27/) allows raw HTML tags in markdown but does not state anything on sanitizing raw HTML data. cmark-gfm comes with two possible (but not perfect) builtin solutions.
@@ -123,7 +130,7 @@ console.log(cmarkSafe);
 
 So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `SAFE` option seems like an overkill. 
 
-#### A Good HTML Sanitizer
+### A Good HTML Sanitizer
 **If you want to sanitize HTML in a good way, I suggest you completely ignore the builtin solutions above from cmark-gfm, instead output raw HTML with `gfm.convertUnsafe` and use a more professional HTML sanitizer instead. For example:**
 ```js
 const gfm = require('cmark-gfm-js');
@@ -159,7 +166,7 @@ console.log(`Unsafe:\n${unsafeHTML}\nSafe: ${safeHTML}`);
 
 See `examples/sanitizeHTML` for full source code.
 
-### cmark-gfm Options
+## cmark-gfm Options
 ```typescript
 enum Option {
   /**
