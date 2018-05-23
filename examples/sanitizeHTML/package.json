@@ -5,6 +5,6 @@
   "author": "Mgen",
   "license": "MIT",
   "dependencies": {
-    "sanitize-html": "^1.18.2"
+    "ting": "^2.2.0"
   }
 }

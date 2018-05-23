@@ -131,10 +131,10 @@ console.log(cmarkSafe);
 So actually none of the above solutions work perfectly. GFM's tag filter is not able to filter some tags with malicious attributes, while cmark's `SAFE` option seems like an overkill. 
 
 ### A Good HTML Sanitizer
-**If you want to sanitize HTML in a good way, I suggest you completely ignore the builtin solutions above from cmark-gfm, instead output raw HTML with `gfm.convertUnsafe` and use a more professional HTML sanitizer instead. For example:**
+**If you want to sanitize HTML in a good way, I suggest you completely ignore the builtin solutions above from cmark-gfm, instead output raw HTML with `gfm.convertUnsafe` and use a more professional HTML sanitizer instead. For example [ting](https://github.com/mgenware/ting)**:
 ```js
 const gfm = require('cmark-gfm-js');
-const sanitizeHTML = require('sanitize-html');
+const ting = require('ting');
 
 /** Dangerous markdown
   ❌ <script>alert(1)</script>
@@ -145,9 +145,7 @@ const sanitizeHTML = require('sanitize-html');
 const dangerous = '<script>alert(1)</script>\n<img src="x.jpg" onclick="alert(1)"/>\n<img src="cool.jpg"/>\n<figcaption>caption</figcaption>';
 
 const unsafeHTML = gfm.convertUnsafe(dangerous);
-const safeHTML = sanitizeHTML(unsafeHTML, {
-  allowedTags: sanitizeHTML.defaults.allowedTags.concat([ 'img', 'figcaption' ]),
-});
+const safeHTML = ting.sanitize(unsafeHTML);
 
 console.log(`Unsafe:\n${unsafeHTML}\nSafe: ${safeHTML}`);
 /** Prints 
