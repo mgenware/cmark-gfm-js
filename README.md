@@ -5,12 +5,12 @@
 [![npm version](https://img.shields.io/npm/v/cmark-gfm-js.svg?style=flat-square)](https://npmjs.com/package/cmark-gfm-js)
 [![Node.js Version](http://img.shields.io/node/v/cmark-gfm-js.svg?style=flat-square)](https://nodejs.org/en/)
 
-* A port of GitHub's [cmark](https://github.com/github/cmark) to JavaScript.
-* Support Node.js and browser.
-* [GitHub Flavored Markdown (GFM) Compatibility](#gfm-compatibility).
-* Come with TypeScript definition file.
-* [HTML Sanitization](#html-sanitization).
-* [Benchmarks](https://github.com/mgenware/node-markdown-parser-performance).
+* A port of GitHub's [cmark](https://github.com/github/cmark) to JavaScript (using Emscripten)
+* Support Node.js and browser
+* [GitHub Flavored Markdown (GFM) Compatibility](#gfm-compatibility)
+* [HTML Sanitization](#html-sanitization)
+* [Benchmarks](https://github.com/mgenware/node-markdown-parser-performance)
+* TypeScript friendly
 
 ## Installation
 ### Node.js
